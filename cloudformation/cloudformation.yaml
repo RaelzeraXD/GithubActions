@@ -46,7 +46,7 @@ Outputs:
 
 #chmod 400 chaveboladaprivada
 
-#pegar dns e mudar
+#pegar dns da instancia e mudar
 #ssh -i "chaveboladaprivada" ubuntu@ec2-44-201-114-168.compute-1.amazonaws.com
 
 #scp -i chaveboladaprivada main ubuntu@ec2-44-201-114-168.compute-1.amazonaws.com:~
