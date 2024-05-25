@@ -19,19 +19,14 @@ jobs:
     - name: Build Go
       run: go build -o main ./cloudformation/main.go
 
-    - name: Set up SSH keys
-      env:
-        SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH }}
-        SSH_KNOWN_HOSTS: ${{ secrets.REMOTE_HOST }}
-      run: |
-        mkdir -p ~/.ssh
-        echo "$SSH_PRIVATE_KEY" > chaveprivada
-        chmod 400 chaveprivada
-        echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
-        cat ~/.ssh/known_hosts
-  
-    - name: Deploy the application to EC2
-      run: scp -o StrictHostKeyChecking=no -i chaveprivada main ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:~
+    - name: setup keys
+      uses: kielabokkie/ssh-key-and-known-hosts-action@v1
+      with:
+        ssh-private-key: ${{ secrets.EC2_SSH }}
+        ssh-host: ${{ secrets.REMOTE_HOST }}
 
-    - name: Run the application on EC2
-      run: ssh -o StrictHostKeyChecking=no -i chaveprivada ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} "sudo ./main"
+    - name: Deploy
+      run: rsync -a ./main ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:~
+
+    - name: Run
+      run: ssh -i ~/.ssh/private_key ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} "sudo ./main"
