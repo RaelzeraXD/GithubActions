@@ -35,5 +35,4 @@ jobs:
       run: |
         echo "${SSH_PRIVATE_KEY}" > /tmp/private_key
         chmod 400 /tmp/private_key
-        sudo pkill -9 main
-        ssh -i "/tmp/private_key" ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} "sudo ./main"
+        ssh -i "~/.ssh/private_key" ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} "sudo pkill -9 main  &&sudo ./main"
