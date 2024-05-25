@@ -47,4 +47,4 @@ Outputs:
 #pegar dns da instancia e mudar 
 #aws ec2 describe-instances | grep PublicIpAddress
 
-#ssh -i "chaveboladaprivada" ubuntu@54.234.186.254
+#ssh -i "chaveboladaprivada" ubuntu@3.93.17.115
