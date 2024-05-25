@@ -5,9 +5,9 @@ import (
 	"net/http"
 )
 
-func main(){
+func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "jubileu brabao")
+		fmt.Fprintf(w, "rapadura é bao")
 	})
 	http.ListenAndServe(":80", nil)
 }
