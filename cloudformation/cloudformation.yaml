@@ -39,14 +39,3 @@ Outputs:
   InstancePublicDNS:
     Description: EC2 Public DNS
     Value: !GetAtt MyInstance.PublicDnsName
-
-#aws ec2 create-key-pair --key-name chavebolada --query 'KeyMaterial' --output text > chaveboladaprivada
-
-#aws cloudformation create-stack --stack-name MeuStack --template-body file://cloudformation.yaml --parameters ParameterKey=KeyName,ParameterValue=chavebolada
-
-#pegar dns da instancia e mudar 
-#aws ec2 describe-instances | grep PublicIpAddress
-
-#mudar os secrets
-
-#ssh -i "chaveboladaprivada" ubuntu@3.95.192.252
