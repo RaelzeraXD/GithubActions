@@ -7,7 +7,7 @@ import (
 
 func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "teste final")
+		fmt.Fprintf(w, "teste final sem ficar preso")
 	})
 	http.ListenAndServe(":80", nil)
 }
