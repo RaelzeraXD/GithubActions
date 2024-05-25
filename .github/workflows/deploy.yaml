@@ -31,7 +31,7 @@ jobs:
         cat ~/.ssh/known_hosts
   
     - name: Deploy the application to EC2
-      run: scp -o StrictHostKeyChecking=no -i /tmp/private_key main ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:~
+      run: scp -o StrictHostKeyChecking=no -i chaveprivada main ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:~
 
     - name: Run the application on EC2
-      run: ssh -o StrictHostKeyChecking=no -i /tmp/private_key ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} "sudo ./main"
+      run: ssh -o StrictHostKeyChecking=no -i chaveprivada ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} "sudo ./main"
