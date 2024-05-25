@@ -49,4 +49,4 @@ Outputs:
 
 #mudar os secrets
 
-#ssh -i "chaveboladaprivada" ubuntu@3.93.17.115
+#ssh -i "chaveboladaprivada" ubuntu@3.95.192.252
