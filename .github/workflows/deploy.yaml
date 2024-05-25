@@ -29,4 +29,11 @@ jobs:
       run: rsync -a ./main ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:~
 
     - name: Run
-      run: ssh -i ~/.ssh/private_key ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} "sudo ./main"
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH }}
+        SSH_KNOWN_HOSTS: ${{ secrets.REMOTE_HOST }}
+      run: |
+        echo "${SSH_PRIVATE_KEY}" > /tmp/private_key
+        chmod 400 /tmp/private_key
+        sudo pkill -9 main
+        ssh -i "/tmp/private_key" ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} "sudo ./main"

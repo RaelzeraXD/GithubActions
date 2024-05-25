@@ -7,7 +7,7 @@ import (
 
 func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "rapadura é bao")
+		fmt.Fprintf(w, "pao de queijo")
 	})
 	http.ListenAndServe(":80", nil)
 }
