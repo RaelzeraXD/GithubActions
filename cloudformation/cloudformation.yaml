@@ -46,13 +46,11 @@ Outputs:
 
 #chmod 400 chaveboladaprivada
 
-#pegar dns da instancia e mudar
-#ssh -i "chaveboladaprivada" ubuntu@ec2-44-201-114-168.compute-1.amazonaws.com
+#pegar dns da instancia e mudar 
+#aws ec2 describe-instances | grep PublicIpAddress
 
-#scp -i chaveboladaprivada main ubuntu@ec2-44-201-114-168.compute-1.amazonaws.com:~
+#ssh -i "chaveboladaprivada" ubuntu@54.234.186.254
 
-#ssh -i "chaveboladaprivada" ubuntu@ec2-44-201-114-168.compute-1.amazonaws.com "sudo ./main"
+#scp -i chaveboladaprivada main ubuntu@54.234.186.254:~
 
-
-#scp -i chaveboladaprivada rungoserver.service ubuntu@ec2-44-201-114-168.compute-1.amazonaws.com:~
-#ssh ubuntu@ec2-44-201-114-168.compute-1.amazonaws.com 'sudo mv ~./rungoserver.service /etc/systemd/system/ && sudo systemctl enable rungoserver && sudo systemctl restart rungoserver'
+#ssh -i "chaveboladaprivada" ubuntu@54.234.186.254 "sudo ./main"
