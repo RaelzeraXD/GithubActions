@@ -28,9 +28,10 @@ jobs:
         echo "$SSH_PRIVATE_KEY" > chaveprivada
         chmod 400 chaveprivada
         echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
-    
-    - name: Deploy to EC2
-      run: scp -i chaveprivada main ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:~
+        cat ~/.ssh/known_hosts
+  
+    - name: Deploy the application to EC2
+      run: scp -o StrictHostKeyChecking=no -i /tmp/private_key main ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:~
 
-    - name: Run EC2
-      run: ssh -i chaveprivada ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} "sudo ./main"
+    - name: Run the application on EC2
+      run: ssh -o StrictHostKeyChecking=no -i /tmp/private_key ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} "sudo ./main"
