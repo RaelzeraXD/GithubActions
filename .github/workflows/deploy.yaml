@@ -17,8 +17,8 @@ jobs:
         go-version: '1.22.1'
 
     - name: Build Go
-      run: go build -o main /cloudformation/main.go
-
+      run: cd /cloudformation && go build -o main main.go
+      
     - name: Set up SSH keys
       env:
         SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH }}
