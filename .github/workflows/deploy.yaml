@@ -16,7 +16,7 @@ jobs:
       with:
         go-version: '1.22.1'
 
-    - name: Build the Go application
+    - name: Build Go
       run: go build -o main /cloudformation/main.go
 
     - name: Set up SSH keys
