@@ -30,7 +30,7 @@ jobs:
           run: |
             INSTANCE_DNS=$(aws cloudformation describe-stacks --stack-name Meustack --query "Stacks[0].Outputs[?OutputKey=='InstancePublicDNS'].OutputValue" --output text)
             echo $INSTANCE_DNS
-            echo "INSTANCE_DNS=$INSTANCE_DNS" >> "$GITHUB_ENV"
+            echo "INSTANCE_DNS=$INSTANCE_DNS" >> "$GITHUB_OUTPUT"
   
   Deploy_to_ec2:
     runs-on: ubuntu-latest
@@ -54,12 +54,15 @@ jobs:
         ssh-private-key: ${{ secrets.EC2_SSH }}
 
     - name: Deploy
+      env:
+        EC2_DNS: ${{ steps.ec2ip.outputs.INSTANCE_DNS }}
       run: rsync -a ./main ${{ secrets.REMOTE_USER }}@$INSTANCE_DNS:~
     
     - name: Run
       env:
+        EC2_DNS: ${{ steps.ec2ip.outputs.INSTANCE_DNS }}
         SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH }}
-        SSH_KNOWN_HOSTS: $INSTANCE_DNS
+        SSH_KNOWN_HOSTS: ${{ steps.ec2ip.outputs.INSTANCE_DNS }}
       run: |
         echo "${SSH_PRIVATE_KEY}" > /tmp/private_key
         chmod 400 /tmp/private_key
