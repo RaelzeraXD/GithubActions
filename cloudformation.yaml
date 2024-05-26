@@ -30,10 +30,10 @@ Resources:
     Properties:
       GroupDescription: HTTP PORT 80
       SecurityGroupIngress:
-      - CidrIp: 0.0.0.0/0
-        IpProtocol: tcp
+      - IpProtocol: tcp
         FromPort: 80
         ToPort: 80
+        CidrIp: 0.0.0.0/0
 Outputs:
   InstancePublicDNS:
     Description: EC2 Public DNS
