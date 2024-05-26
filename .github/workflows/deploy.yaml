@@ -45,15 +45,14 @@ jobs:
           uses: webfactory/ssh-agent@v0.5.3
           with:
             ssh-private-key: ${{ secrets.EC2_SSH }}
-
+          
+        - name: keys to file
+          env:
+            SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH }}
+          run: echo "${SSH_PRIVATE_KEY}" > /tmp/private_key && chmod 400 /tmp/private_key
+        
         - name: Deploy
           run: rsync -a ./main ${{ secrets.REMOTE_USER }}@${{ steps.ec2ip.outputs.EC2_DNS }}:~
 
         - name: Run
-          env:
-            SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH }}
-            SSH_KNOWN_HOSTS: ${{ steps.ec2ip.outputs.EC2_DNS }}
-          run: |
-            echo "${SSH_PRIVATE_KEY}" > /tmp/private_key
-            chmod 400 /tmp/private_key
-            ssh -i /tmp/private_key ${{ secrets.REMOTE_USER }}@${{ steps.ec2ip.outputs.EC2_DNS }} "sudo pkill -9 main && sudo ./main &"
+          run: ssh -i /tmp/private_key ${{ secrets.REMOTE_USER }}@${{ steps.ec2ip.outputs.EC2_DNS }} "sudo pkill -9 main && sudo ./main &"
