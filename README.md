@@ -8,3 +8,5 @@ Projeto para apresentar na entrevista da uol
 * aws ec2 describe-instances | grep PublicIpAddress
 
 * mudar os secrets
+
+* aws cloudformation delete-stack --stack-name MeuStack
