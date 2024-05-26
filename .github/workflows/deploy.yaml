@@ -58,7 +58,7 @@ jobs:
           run: scp -i "/tmp/private_key" main ${{ secrets.REMOTE_USER }}@${{ steps.ec2dns.outputs.EC2_DNS }}:~
 
         - name: Remove previous deploy
-          run: ssh -i /tmp/private_key ${{ secrets.REMOTE_USER }}@${{ steps.ec2dns.outputs.EC2_DNS }} "sudo pkill -9 main"
+          run: ssh -i /tmp/private_key ${{ secrets.REMOTE_USER }}@${{ steps.ec2dns.outputs.EC2_DNS }} "sudo pkill -9 main || echo 'nao tem nada rodando'"
 
         - name: Run
           run: ssh -i /tmp/private_key ${{ secrets.REMOTE_USER }}@${{ steps.ec2dns.outputs.EC2_DNS }} "sudo ./main &"
