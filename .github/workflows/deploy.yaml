@@ -27,6 +27,7 @@ jobs:
             parameter-overrides: "KeyName=chavebolada"
         
         - name: Get EC2 DNS
+          id: ec2ip
           run: |
             INSTANCE_DNS=$(aws cloudformation describe-stacks --stack-name Meustack --query "Stacks[0].Outputs[?OutputKey=='InstancePublicDNS'].OutputValue" --output text)
             echo $INSTANCE_DNS
