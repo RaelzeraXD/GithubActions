@@ -41,10 +41,11 @@ jobs:
         - name: Build Go
           run: go build -o main ./cloudformation/main.go
 
-        - name: Set up SSH
-          uses: webfactory/ssh-agent@v0.5.3
+        - name: setup keys
+          uses: kielabokkie/ssh-key-and-known-hosts-action@v1
           with:
             ssh-private-key: ${{ secrets.EC2_SSH }}
+            ssh-host: ${{ steps.ec2ip.outputs.EC2_DNS }}
           
         - name: keys to file
           env:
@@ -52,7 +53,7 @@ jobs:
           run: echo "${SSH_PRIVATE_KEY}" > /tmp/private_key && chmod 400 /tmp/private_key
         
         - name: Deploy
-          run: scp -i "/tmp/private_key" main ${{ secrets.REMOTE_USER }}@${{ steps.ec2ip.outputs.EC2_DNS }}:~
+          run: rsync -a ./main ${{ secrets.REMOTE_USER }}@${{ steps.ec2ip.outputs.EC2_DNS }}:~
 
         - name: Run
           run: ssh -i /tmp/private_key ${{ secrets.REMOTE_USER }}@${{ steps.ec2ip.outputs.EC2_DNS }} "sudo pkill -9 main && sudo ./main &"
