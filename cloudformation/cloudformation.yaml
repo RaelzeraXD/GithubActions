@@ -28,7 +28,7 @@ Resources:
   ServerSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupDescription: HTTP PORTA 80
+      GroupDescription: HTTP PORT 80
       SecurityGroupIngress:
       - IpProtocol: tcp
         FromPort: 80
