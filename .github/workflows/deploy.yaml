@@ -23,7 +23,7 @@ jobs:
           uses: aws-actions/aws-cloudformation-github-deploy@v1
           with:
             name: Meustack
-            template: cloudformation.yaml
+            template: cloudformation/cloudformation.yaml
             parameter-overrides: "KeyName=chavebolada"
         
         - name: Get EC2 DNS
