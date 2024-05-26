@@ -28,8 +28,9 @@ jobs:
         
         - name: Get EC2 DNS
           run: |
-            STACK_OUTPUT=$(aws cloudformation describe-stacks --stack-name Meustack --query "Stacks[0].Outputs[?OutputKey=='InstancePublicDNS'].OutputValue" --output text)
-            ::set-output name=instance_dns::$STACK_OUTPUT"
+              INSTANCE_DNS=$(aws cloudformation describe-stacks --stack-name Meustack --query "Stacks[0].Outputs[?OutputKey=='InstancePublicDNS'].OutputValue" --output text)
+              echo "Instance Public DNS: $INSTANCE_DNS"
+              echo "::set-output name=instance_dns::$INSTANCE_DNS"
   
   Deploy_to_ec2:
     runs-on: ubuntu-latest
