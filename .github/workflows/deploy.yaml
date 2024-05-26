@@ -27,7 +27,7 @@ jobs:
             parameter-overrides: "KeyName=chavebolada"
         
         - name: Get EC2 DNS
-          id: ec2ip
+          id: ec2dns
           run: |
             EC2_DNS=$(aws cloudformation describe-stacks --stack-name Meustack --query "Stacks[0].Outputs[?OutputKey=='InstancePublicDNS'].OutputValue" --output text)
             echo $EC2_DNS
@@ -45,7 +45,7 @@ jobs:
           uses: kielabokkie/ssh-key-and-known-hosts-action@v1
           with:
             ssh-private-key: ${{ secrets.EC2_SSH }}
-            ssh-host: ${{ steps.ec2ip.outputs.EC2_DNS }}
+            ssh-host: ${{ steps.ec2dns.outputs.EC2_DNS }}
           
         - name: keys to file
           env:
@@ -53,9 +53,9 @@ jobs:
           run: echo "${SSH_PRIVATE_KEY}" > /tmp/private_key && chmod 400 /tmp/private_key
         
         - name: Deploy
-          run: |
-           echo "/tmp/private_key"
-           scp -i "/tmp/private_key" main ${{ secrets.REMOTE_USER }}@${{ steps.ec2ip.outputs.EC2_DNS }}:~
+          run: scp -i "/tmp/private_key" main ${{ secrets.REMOTE_USER }}@${{ steps.ec2dns.outputs.EC2_DNS }}:~
 
         - name: Run
-          run: ssh -i /tmp/private_key ${{ secrets.REMOTE_USER }}@${{ steps.ec2ip.outputs.EC2_DNS }} "sudo pkill -9 main && sudo ./main &"
+          run: |
+           ssh -i "/tmp/private_key" ${{ secrets.REMOTE_USER }}@${{ steps.ec2dns.outputs.EC2_DNS }} "sudo pkill -9 main"
+           ssh -i "/tmp/private_key" ${{ secrets.REMOTE_USER }}@${{ steps.ec2dns.outputs.EC2_DNS }} "sudo ./main"
