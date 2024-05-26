@@ -1,7 +1,7 @@
 Parameters:
   KeyName:
     Description: Nome do par de chaves SSH para acessar a instância 
-    Type: AWS::EC2::KeyPair::KeyName
+    Type: AWS::EC2::KeyPair::KeyName 
 
 Resources:
   MyInstance:

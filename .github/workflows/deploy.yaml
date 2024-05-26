@@ -50,12 +50,14 @@ jobs:
         - name: keys to file
           env:
             SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH }}
-          run: echo "${SSH_PRIVATE_KEY}" > /tmp/private_key && chmod 400 /tmp/private_key
+          run: |
+           echo "${SSH_PRIVATE_KEY}" > /tmp/private_key
+           chmod 400 /tmp/private_key
         
         - name: Deploy
           run: scp -i "/tmp/private_key" main ${{ secrets.REMOTE_USER }}@${{ steps.ec2dns.outputs.EC2_DNS }}:~
 
         - name: Run
           run: |
-           ssh -i "/tmp/private_key" ${{ secrets.REMOTE_USER }}@${{ steps.ec2dns.outputs.EC2_DNS }} "sudo pkill -9 main"
+           yes | ssh -i "/tmp/private_key" ${{ secrets.REMOTE_USER }}@${{ steps.ec2dns.outputs.EC2_DNS }} "sudo pkill -9 main"
            ssh -i "/tmp/private_key" ${{ secrets.REMOTE_USER }}@${{ steps.ec2dns.outputs.EC2_DNS }} "sudo ./main"
