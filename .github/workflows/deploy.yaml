@@ -30,7 +30,7 @@ jobs:
           run: |
               INSTANCE_DNS=$(aws cloudformation describe-stacks --stack-name Meustack --query "Stacks[0].Outputs[?OutputKey=='InstancePublicDNS'].OutputValue" --output text)
               echo "Instance Public DNS: $INSTANCE_DNS"
-              echo "::set-output name=instance_dns::$INSTANCE_DNS"
+              ::set-output name=instance_dns::$INSTANCE_DNS
   
   Deploy_to_ec2:
     runs-on: ubuntu-latest
@@ -48,11 +48,10 @@ jobs:
     - name: Build Go
       run: go build -o main ./cloudformation/main.go
 
-    - name: setup keys
-      uses: kielabokkie/ssh-key-and-known-hosts-action@v1
+    - name: Set up SSH
+      uses: webfactory/ssh-agent@v0.5.3
       with:
         ssh-private-key: ${{ secrets.EC2_SSH }}
-        ssh-host: ${{ needs.AWS.outputs.instance_dns }}
 
     - name: Deploy
       run: rsync -a ./main ${{ secrets.REMOTE_USER }}@${{ needs.AWS.outputs.instance_dns }}:~
