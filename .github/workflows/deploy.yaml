@@ -58,6 +58,4 @@ jobs:
           run: scp -i "/tmp/private_key" main ${{ secrets.REMOTE_USER }}@${{ steps.ec2dns.outputs.EC2_DNS }}:~
 
         - name: Run
-          run: |
-           ssh -i /tmp/private_key ${{ secrets.REMOTE_USER }}@${{ steps.ec2dns.outputs.EC2_DNS }} "sudo pkill -9 main"
-           ssh -i /tmp/private_key ${{ secrets.REMOTE_USER }}@${{ steps.ec2dns.outputs.EC2_DNS }} "sudo ./main &"
+          run: ssh -i /tmp/private_key ${{ secrets.REMOTE_USER }}@${{ steps.ec2dns.outputs.EC2_DNS }} "sudo pkill -9 main && sudo ./main &"
